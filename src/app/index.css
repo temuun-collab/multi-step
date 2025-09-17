@@ -1,0 +1,105 @@
+@import "tailwindcss";
+* {
+  box-sizing: border-box;
+  padding: 0;
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+.form-container {
+  width: 480px;
+  height: 655px;
+  background-color: white;
+  display: flex;
+
+  padding-top: 28px;
+  flex-direction: column;
+  align-items: center;
+}
+.container {
+  width: 416px;
+  height: 385px;
+  gap: 28px;
+  display: grid;
+}
+.from-header {
+  width: 416px;
+  height: 129px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.logomain {
+  width: 60px;
+  height: 60px;
+}
+.form-container1 {
+  width: 416px;
+  height: 228px;
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.text-field {
+  font-size: 14px;
+  font-weight: 600;
+  color: black;
+}
+.input-container {
+  height: 44px;
+  width: 416px;
+  border-radius: 8px;
+  border: 1px solid;
+  border-color: rgb(212, 211, 211);
+  color: black;
+}
+.input-container1 {
+  height: 44px;
+  width: 416px;
+  border-radius: 8px;
+  border: 1px solid;
+  border-color: #e14942;
+  color: #e14942;
+}
+
+.input-container:hover {
+  border-color: #0ca5e9;
+}
+.button {
+  width: 416px;
+  height: 44px;
+  background-color: #121316;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.button1 {
+  width: 128px;
+  height: 44px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid;
+  border-color: rgb(212, 211, 211);
+  color: black;
+}
+.helper-text {
+  color: #e14942;
+  font-size: 14px;
+  font-weight: 400;
+}
+.button-container {
+  padding-top: 163px;
+  display: flex;
+  width: 416px;
+  gap: 8px;
+}
