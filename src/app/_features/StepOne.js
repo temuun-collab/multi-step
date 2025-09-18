@@ -50,6 +50,8 @@ export const StepOne = (props) => {
     } else if (formValues.userName.length < 3) {
       errors.userName = "user name input should";
     }
+    console.log(errors);
+
     return errors;
   };
 
@@ -57,10 +59,10 @@ export const StepOne = (props) => {
     const errors = validateInput();
 
     if (Object.keys(errors).length === 0) {
-      setErrorState(errors);
+      setErrorState({});
       handleNextStep();
     } else {
-      setErrorState({});
+      setErrorState(errors);
     }
   };
   const shouldDisableButton = () => {
@@ -70,6 +72,7 @@ export const StepOne = (props) => {
       formValues.userName.length === 0
     );
   };
+
   return (
     <div className="form-container">
       <div className="container">

@@ -8,21 +8,21 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f4f4f4;
+  background-color: #f1f1f1ff;
 }
 .form-container {
   width: 480px;
   height: 655px;
   background-color: white;
   display: flex;
-
+  justify-content: space-evenly;
   padding-top: 28px;
   flex-direction: column;
   align-items: center;
 }
 .container {
   width: 416px;
-  height: 385px;
+
   gap: 28px;
   display: grid;
 }
@@ -39,7 +39,7 @@ body {
 }
 .form-container1 {
   width: 416px;
-  height: 228px;
+
   gap: 12px;
   display: flex;
   flex-direction: column;
@@ -98,8 +98,12 @@ body {
   font-weight: 400;
 }
 .button-container {
-  padding-top: 163px;
   display: flex;
   width: 416px;
   gap: 8px;
+}
+.input-image {
+  width: 416px;
+  height: 180px;
+  background-color: #f1f1f1ff;
 }

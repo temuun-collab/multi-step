@@ -6,6 +6,7 @@ import { FormInput } from "../_components/form-input";
 
 export const StepTwo = (props) => {
   const { handleBackStep } = props;
+  const { handleNextStep } = props;
   const checkInputHasSpecialCharacter = (string) => {
     return /[!#$%^&*()_+{}":?><]/.test(string);
   };
@@ -13,8 +14,9 @@ export const StepTwo = (props) => {
     return /\d/.test(string);
   };
   const checkInputLetter = (string) => {
-    return /\p[A-Z,a-z]/.test(string);
+    return /[A-Z,a-z]/.test(string);
   };
+
   const [formValues, setFormValues] = useState({
     email: "",
     phoneNumber: "",
@@ -31,7 +33,7 @@ export const StepTwo = (props) => {
   const validateInput = () => {
     const errors = {};
     if (
-      checkInputHasSpecialNumber(formValues.email) ||
+      !checkInputHasSpecialNumber(formValues.email) ||
       checkInputHasSpecialCharacter(formValues.email)
     ) {
       errors.email = "input should";
@@ -47,21 +49,20 @@ export const StepTwo = (props) => {
       errors.phoneNumber = " last name input should";
     }
     if (
-      checkInputHasSpecialNumber(formValues.password) ||
-      checkInputHasSpecialCharacter(formValues.password)
+      !checkInputLetter(formValues.password) ||
+      !checkInputHasSpecialCharacter(formValues.password) ||
+      !checkInputHasSpecialNumber(formValues.password)
     ) {
       errors.password = "user name input should";
     } else if (formValues.password.length < 8) {
       errors.password = "user name input should";
     }
-    if (
-      checkInputHasSpecialNumber(formValues.confirmPassword) ||
-      checkInputHasSpecialCharacter(formValues.confirmPassword)
-    ) {
+    if (formValues.confirmPassword !== formValues.password) {
       errors.confirmPassword = "user name input should";
     } else if (formValues.confirmPassword.length < 8) {
       errors.confirmPassword = "user name input should";
     }
+
     return errors;
   };
 
@@ -69,19 +70,21 @@ export const StepTwo = (props) => {
     const errors = validateInput();
 
     if (Object.keys(errors).length === 0) {
-      setErrorState(errors);
-    } else {
       setErrorState({});
+      handleNextStep();
+    } else {
+      setErrorState(errors);
     }
   };
-  const shouldDisableButton = () => {
-    return (
-      formValues.email.length === 0 ||
-      formValues.password.length === 0 ||
-      formValues.phoneNumber.length === 0 ||
-      formValues.confirmPassword.length === 0
-    );
-  };
+
+  // const shouldDisableButton = () => {
+  //   return (
+  //     formValues.email.length === 0 ||
+  //     formValues.password.length === 0 ||
+  //     formValues.phoneNumber.length === 0 ||
+  //     formValues.confirmPassword.length === 0
+  //   );
+  // };
   return (
     <div className="form-container">
       <div className="container">
@@ -141,7 +144,7 @@ export const StepTwo = (props) => {
         <button
           className="button"
           onClick={handleBUttonClick}
-          disabled={shouldDisableButton}
+          // disabled={shouldDisableButton}
         >
           <p>Continue 2/3</p>
           <img src="./vector.png" style={{ height: "12px", width: "12px" }} />

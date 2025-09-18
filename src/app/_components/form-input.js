@@ -1,5 +1,4 @@
 export const FormInput = (props) => {
-  console.log(props, "this is props object");
   const {
     error,
     value,
@@ -9,13 +8,13 @@ export const FormInput = (props) => {
     errorMessage,
     placeholder,
   } = props;
+
   return (
     <div>
       <div style={{ display: "flex", gap: "2px" }}>
         <p className="text-field">{inputTag}</p>
         <p style={{ color: "red" }}>*</p>
       </div>
-
       <input
         className={error ? "input-container1" : "input-container"}
         placeholder={placeholder}
