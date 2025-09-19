@@ -11,13 +11,32 @@ export const StepOne = (props) => {
   const checkInputHasSpecialNumber = (string) => {
     return /\d/.test(string);
   };
-
-  const [formValues, setFormValues] = useState({
-    firstName: "",
-    lastName: "",
-    userName: "",
-  });
+  const addStepOneToLocalStorage = (values) => {
+    localStorage.setItem("stepOne", JSON.stringify(values));
+  };
+  const getStepOneValuesFromLocalStorage = () => {
+    const values = localStorage.getItem("stepOne");
+    if (values) {
+      return JSON.parse(values);
+    } else {
+      return {
+        firstName: "",
+        lastName: "",
+        userName: "",
+      };
+    }
+  };
+  const [formValues, setFormValues] = useState(
+    getStepOneValuesFromLocalStorage()
+  );
   const [errorState, setErrorState] = useState({});
+  const stringObject = JSON.stringify(formValues);
+  console.log("string", stringObject);
+  console.log(typeof stringObject);
+
+  const object = JSON.parse(stringObject);
+  console.log("object", object);
+  console.log(typeof object);
 
   const handleInputChange = (e) => {
     const inputName = e.target.name;
@@ -60,6 +79,7 @@ export const StepOne = (props) => {
 
     if (Object.keys(errors).length === 0) {
       setErrorState({});
+      addStepOneToLocalStorage(formValues);
       handleNextStep();
     } else {
       setErrorState(errors);

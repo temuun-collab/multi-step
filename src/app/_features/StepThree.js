@@ -8,13 +8,33 @@ export const StepThree = (props) => {
   const { handleBackStep } = props;
   const { handleNextStep } = props;
 
+  const addStepThreeToLocalStorage = (values) => {
+    localStorage.setItem("stepThree", JSON.stringify(values));
+  };
+  const getStepThreeValuesFromLocalStorage = () => {
+    const values = localStorage.getItem("stepThree");
+    if (values) {
+      return JSON.parse(values);
+    } else {
+      return {
+        dateBirth: "",
+        file: "",
+        image: "",
+      };
+    }
+  };
+  const [formValues, setFormValues] = useState(
+    getStepThreeValuesFromLocalStorage()
+  );
   const [imgUrl, setImgUrl] = useState(null);
-
-  const [formValues, setFormValues] = useState({
-    dateBirth: "",
-    file: "",
-  });
   const [errorState, setErrorState] = useState({});
+  const stringObject = JSON.stringify(formValues);
+  console.log("string", stringObject);
+  console.log(typeof stringObject);
+
+  const object = JSON.parse(stringObject);
+  console.log("object", object);
+  console.log(typeof object);
 
   const handleImageUploud = (e) => {
     const file = e.target.files[0];
@@ -28,7 +48,7 @@ export const StepThree = (props) => {
   const validateInput = () => {
     const errors = {};
     if (formValues.dateBirth.length === 0 || formValues.file === null) {
-      setFormValues(errorState);
+      setFormValues(errors);
     }
 
     return errors;
@@ -39,6 +59,7 @@ export const StepThree = (props) => {
 
     if (Object.keys(errors).length === 0) {
       setErrorState({});
+      addStepThreeToLocalStorage(formValues);
       handleNextStep();
     } else {
       setErrorState(errors);
@@ -47,6 +68,9 @@ export const StepThree = (props) => {
 
   const shouldDisableButton = () => {
     return formValues.dateBirth.length === 0 || formValues.file.length === 0;
+  };
+  const buttonRemove = () => {
+    formValues.image === null;
   };
   return (
     <div className="form-container">
@@ -79,34 +103,47 @@ export const StepThree = (props) => {
             <p className="text-field">Profile image</p>
             <p style={{ color: "red" }}>*</p>
           </div>
-          {/* <div>
-            <input type="file" accept="image/*" onChange={handleImageUploud} />
-            <div style={{ marginTop: "10px" }}>
-              <img
-                src={imgUrl}
-                alt="preview"
-                style={{
-                  idth: "416px",
-                  height: "180px",
-                  objectFit: "cover",
-                  borderRadius: "8px",
-                }}
-              />
-            </div>
-          </div> */}
-          <input
-            type="file"
-            id="file"
-            name="file"
-            className="input-image"
-            onChange={handleImageUploud}
-          />
+          {!imgUrl && (
+            <>
+              <button className="button2">
+                <input
+                  type="file"
+                  name="file"
+                  className="input-image"
+                  onChange={handleImageUploud}
+                />
+                <img src="./image.png" />
+                <p style={{ color: "black" }}>Add image</p>
+              </button>
+            </>
+          )}
+          {formValues.dateBirth && (
+            <p className="helper-text">Image cannot be blank</p>
+          )}
 
           {imgUrl && (
-            <img
-              src={imgUrl}
-              style={{ width: "416px", height: "180px", objectFit: "cover" }}
-            />
+            <>
+              <div className="image">
+                <img
+                  src={imgUrl}
+                  name="image"
+                  style={{
+                    width: "416px",
+                    height: "180px",
+                    objectFit: "cover",
+                    position: "relative",
+                  }}
+                />
+                <div>
+                  <button className="remove-button" onClick={buttonRemove}>
+                    <img
+                      src="./remove.png"
+                      style={{ width: "7px", height: "7px" }}
+                    />
+                  </button>
+                </div>
+              </div>
+            </>
           )}
 
           {errorState.dateBirth && (
@@ -122,10 +159,10 @@ export const StepThree = (props) => {
         <button
           className="button"
           onClick={handleBUttonClick}
-          disabled={shouldDisableButton}
+          disabled={shouldDisableButton()}
         >
           <p>Continue 3/3</p>
-          {/* <img src="./vector.png" style={{ height: "12px", width: "12px" }} /> */}
+          <img src="./vector.png" style={{ height: "12px", width: "12px" }} />
         </button>
       </div>
     </div>

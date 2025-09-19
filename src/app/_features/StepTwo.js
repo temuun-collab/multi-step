@@ -16,14 +16,33 @@ export const StepTwo = (props) => {
   const checkInputLetter = (string) => {
     return /[A-Z,a-z]/.test(string);
   };
-
-  const [formValues, setFormValues] = useState({
-    email: "",
-    phoneNumber: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const addStepTwoToLocalStorage = (values) => {
+    localStorage.setItem("stepTwo", JSON.stringify(values));
+  };
+  const getStepTwoValuesFromLocalStorage = () => {
+    const values = localStorage.getItem("stepTwo");
+    if (values) {
+      return JSON.parse(values);
+    } else {
+      return {
+        email: "",
+        phoneNumber: "",
+        password: "",
+        confirmPassword: "",
+      };
+    }
+  };
+  const [formValues, setFormValues] = useState(
+    getStepTwoValuesFromLocalStorage()
+  );
   const [errorState, setErrorState] = useState({});
+  const stringObject = JSON.stringify(formValues);
+  console.log("string", stringObject);
+  console.log(typeof stringObject);
+
+  const object = JSON.parse(stringObject);
+  console.log("object", object);
+  console.log(typeof object);
 
   const handleInputChange = (e) => {
     const inputName = e.target.name;
@@ -71,20 +90,21 @@ export const StepTwo = (props) => {
 
     if (Object.keys(errors).length === 0) {
       setErrorState({});
+      addStepTwoToLocalStorage(formValues);
       handleNextStep();
     } else {
       setErrorState(errors);
     }
   };
 
-  // const shouldDisableButton = () => {
-  //   return (
-  //     formValues.email.length === 0 ||
-  //     formValues.password.length === 0 ||
-  //     formValues.phoneNumber.length === 0 ||
-  //     formValues.confirmPassword.length === 0
-  //   );
-  // };
+  const shouldDisableButton = () => {
+    return (
+      formValues.email.length === 0 ||
+      formValues.password.length === 0 ||
+      formValues.phoneNumber.length === 0 ||
+      formValues.confirmPassword.length === 0
+    );
+  };
   return (
     <div className="form-container">
       <div className="container">
@@ -144,7 +164,7 @@ export const StepTwo = (props) => {
         <button
           className="button"
           onClick={handleBUttonClick}
-          // disabled={shouldDisableButton}
+          disabled={shouldDisableButton()}
         >
           <p>Continue 2/3</p>
           <img src="./vector.png" style={{ height: "12px", width: "12px" }} />
