@@ -2,31 +2,32 @@
 
 import "tailwindcss";
 import { useState } from "react";
+import { FormInput } from "../_components/form-input";
 
 export const StepThree = (props) => {
   const { handleBackStep } = props;
   const { handleNextStep } = props;
 
-  const [imgUrl, setImgUrl] = useState();
+  const [imgUrl, setImgUrl] = useState(null);
 
   const [formValues, setFormValues] = useState({
     dateBirth: "",
     file: "",
   });
   const [errorState, setErrorState] = useState({});
+
   const handleImageUploud = (e) => {
     const file = e.target.files[0];
+    console.log(file);
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImgUrl(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setImgUrl(URL.createObjectURL(file));
     }
   };
+  console.log(imgUrl);
+
   const validateInput = () => {
     const errors = {};
-    if (!formValues.dateBirth || !formValues.file) {
+    if (formValues.dateBirth.length === 0 || formValues.file === null) {
       setFormValues(errorState);
     }
 
@@ -44,9 +45,9 @@ export const StepThree = (props) => {
     }
   };
 
-  //   const shouldDisableButton = () => {
-  //     return formValues.dateBirth.length === 0 || formValues.file.length === 0;
-  //   };
+  const shouldDisableButton = () => {
+    return formValues.dateBirth.length === 0 || formValues.file.length === 0;
+  };
   return (
     <div className="form-container">
       <div className="container">
@@ -63,13 +64,13 @@ export const StepThree = (props) => {
           <input
             type="date"
             name="dateBirth"
-            min="2000-01-01"
+            min="1900-01-01"
             max="2025-12-31"
             className={
-              formValues.dateBirth ? "input-container1" : "input-container"
+              errorState.dateBirth ? "input-container1" : "input-container"
             }
           />
-          {formValues.dateBirth && (
+          {errorState.dateBirth && (
             <p className="helper-text">Please select a date.</p>
           )}
         </div>
@@ -78,6 +79,21 @@ export const StepThree = (props) => {
             <p className="text-field">Profile image</p>
             <p style={{ color: "red" }}>*</p>
           </div>
+          {/* <div>
+            <input type="file" accept="image/*" onChange={handleImageUploud} />
+            <div style={{ marginTop: "10px" }}>
+              <img
+                src={imgUrl}
+                alt="preview"
+                style={{
+                  idth: "416px",
+                  height: "180px",
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                }}
+              />
+            </div>
+          </div> */}
           <input
             type="file"
             id="file"
@@ -85,7 +101,15 @@ export const StepThree = (props) => {
             className="input-image"
             onChange={handleImageUploud}
           />
-          {formValues.dateBirth && (
+
+          {imgUrl && (
+            <img
+              src={imgUrl}
+              style={{ width: "416px", height: "180px", objectFit: "cover" }}
+            />
+          )}
+
+          {errorState.dateBirth && (
             <p className="helper-text">Image cannot be blank</p>
           )}
         </div>
@@ -98,10 +122,10 @@ export const StepThree = (props) => {
         <button
           className="button"
           onClick={handleBUttonClick}
-          //   disabled={shouldDisableButton}
+          disabled={shouldDisableButton}
         >
           <p>Continue 3/3</p>
-          <img src="./vector.png" style={{ height: "12px", width: "12px" }} />
+          {/* <img src="./vector.png" style={{ height: "12px", width: "12px" }} /> */}
         </button>
       </div>
     </div>

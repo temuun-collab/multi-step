@@ -19,6 +19,7 @@ body {
   padding-top: 28px;
   flex-direction: column;
   align-items: center;
+  border-radius: 8px;
 }
 .container {
   width: 416px;
@@ -103,7 +104,10 @@ body {
   gap: 8px;
 }
 .input-image {
-  width: 416px;
-  height: 180px;
   background-color: #f1f1f1ff;
+  height: 180px;
+  /* display: none; */
+}
+.input-image1 {
+  display: none;
 }
