@@ -7,6 +7,9 @@ export const FormInput = (props) => {
     name,
     errorMessage,
     placeholder,
+    type,
+    min,
+    max,
   } = props;
 
   return (
@@ -21,6 +24,9 @@ export const FormInput = (props) => {
         onChange={handleChange}
         name={name}
         value={value}
+        type={type}
+        min={min}
+        max={max}
       ></input>
       {error && <p className="helper-text">{errorMessage}</p>}
     </div>
