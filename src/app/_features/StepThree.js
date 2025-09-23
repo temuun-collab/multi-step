@@ -54,7 +54,9 @@ export const StepThree = (props) => {
     return errors;
   };
 
-  const handleBUttonClick = () => {
+  const handleButtonClick = () => {
+    console.log("hi");
+
     const errors = validateInput();
 
     if (Object.keys(errors).length === 0) {
@@ -67,7 +69,7 @@ export const StepThree = (props) => {
   };
 
   const shouldDisableButton = () => {
-    return formValues.dateBirth.length === 0 || formValues.file.length === 0;
+    return formValues.dateBirth.trim().length === 0 || !formValues.image;
   };
   const buttonRemove = () => {
     formValues.image === null;
@@ -158,8 +160,8 @@ export const StepThree = (props) => {
         </button>
         <button
           className="button"
-          onClick={handleBUttonClick}
-          disabled={shouldDisableButton()}
+          onClick={handleButtonClick}
+          // disabled={shouldDisableButton()}
         >
           <p>Continue 3/3</p>
           <img src="./vector.png" style={{ height: "12px", width: "12px" }} />
