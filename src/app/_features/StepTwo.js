@@ -158,7 +158,7 @@ export const StepTwo = (props) => {
       </div>
       <div className="button-container">
         <button className="button1" onClick={handleBackStep}>
-          <img src="./vector1.png" style={{ height: "12px", width: "12px" }} />
+          <img src="./vector1.png" style={{ height: "8px", width: "4px" }} />
           <p>Back</p>
         </button>
         <button

@@ -11,6 +11,7 @@ export const StepThree = (props) => {
   const addStepThreeToLocalStorage = (values) => {
     localStorage.setItem("stepThree", JSON.stringify(values));
   };
+
   const getStepThreeValuesFromLocalStorage = () => {
     const values = localStorage.getItem("stepThree");
     if (values) {
@@ -23,10 +24,11 @@ export const StepThree = (props) => {
       };
     }
   };
+
   const [formValues, setFormValues] = useState(
     getStepThreeValuesFromLocalStorage()
   );
-  const [imgUrl, setImgUrl] = useState(null);
+  const [imgUrl, setImgUrl] = useState(false);
   const [errorState, setErrorState] = useState({});
   const stringObject = JSON.stringify(formValues);
   console.log("string", stringObject);
@@ -43,11 +45,11 @@ export const StepThree = (props) => {
       setImgUrl(URL.createObjectURL(file));
     }
   };
-  console.log(imgUrl);
+  // console.log(imgUrl);
 
   const validateInput = () => {
     const errors = {};
-    if (formValues.dateBirth.length === 0 || formValues.file === null) {
+    if (formValues.dateBirth === 0 || formValues.file === null) {
       setFormValues(errors);
     }
 
@@ -68,12 +70,12 @@ export const StepThree = (props) => {
     }
   };
 
-  const shouldDisableButton = () => {
-    return formValues.dateBirth.trim().length === 0 || !formValues.image;
-  };
-  const buttonRemove = () => {
-    formValues.image === null;
-  };
+  // const shouldDisableButton = () => {
+  //   return ;
+  // };
+
+  // console.log(formValues.image, formValues.dateBirth.length);
+
   return (
     <div className="form-container">
       <div className="container">
@@ -95,6 +97,7 @@ export const StepThree = (props) => {
             className={
               errorState.dateBirth ? "input-container1" : "input-container"
             }
+            onChange={validateInput}
           />
           {errorState.dateBirth && (
             <p className="helper-text">Please select a date.</p>
@@ -108,14 +111,13 @@ export const StepThree = (props) => {
           {!imgUrl && (
             <>
               <button className="button2">
+                <img src="./image.png" />
                 <input
                   type="file"
                   name="file"
-                  className="input-image"
+                  className="input-image ml-23"
                   onChange={handleImageUploud}
                 />
-                <img src="./image.png" />
-                <p style={{ color: "black" }}>Add image</p>
               </button>
             </>
           )}
@@ -125,7 +127,7 @@ export const StepThree = (props) => {
 
           {imgUrl && (
             <>
-              <div className="image">
+              <div className="image relative">
                 <img
                   src={imgUrl}
                   name="image"
@@ -133,11 +135,15 @@ export const StepThree = (props) => {
                     width: "416px",
                     height: "180px",
                     objectFit: "cover",
-                    position: "relative",
                   }}
                 />
-                <div>
-                  <button className="remove-button" onClick={buttonRemove}>
+                <div className="flex justify-end">
+                  <button
+                    className="remove-button absolute z-10"
+                    onClick={() => {
+                      setImgUrl(false);
+                    }}
+                  >
                     <img
                       src="./remove.png"
                       style={{ width: "7px", height: "7px" }}
@@ -155,13 +161,15 @@ export const StepThree = (props) => {
       </div>
       <div className="button-container">
         <button className="button1" onClick={handleBackStep}>
-          <img src="./vector1.png" style={{ height: "12px", width: "12px" }} />
+          <img src="./vector1.png" style={{ height: "8px", width: "4px" }} />
           <p>Back</p>
         </button>
         <button
           className="button"
           onClick={handleButtonClick}
-          // disabled={shouldDisableButton()}
+          // disabled={
+          //   formValues.imgUrl === 0 || formValues.dateBirth.length === 0
+          // }
         >
           <p>Continue 3/3</p>
           <img src="./vector.png" style={{ height: "12px", width: "12px" }} />
