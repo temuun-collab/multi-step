@@ -3,6 +3,7 @@
 import "tailwindcss";
 import { useState } from "react";
 import { FormInput } from "../_components/form-input";
+import Image from "next/image";
 
 export const StepTwo = (props) => {
   const { handleBackStep } = props;
@@ -33,7 +34,7 @@ export const StepTwo = (props) => {
     }
   };
   const [formValues, setFormValues] = useState(
-    getStepTwoValuesFromLocalStorage()
+    getStepTwoValuesFromLocalStorage(),
   );
   const [errorState, setErrorState] = useState({});
   const stringObject = JSON.stringify(formValues);
@@ -167,7 +168,7 @@ export const StepTwo = (props) => {
           disabled={shouldDisableButton()}
         >
           <p>Continue 2/3</p>
-          <img src="./vector.png" style={{ height: "12px", width: "12px" }} />
+          <Image src="./vector.png" style={{ height: "12px", width: "12px" }} />
         </button>
       </div>
     </div>
