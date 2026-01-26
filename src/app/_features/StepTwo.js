@@ -110,7 +110,7 @@ export const StepTwo = (props) => {
     <div className="form-container">
       <div className="container">
         <div className="from-header">
-          <Image src="./logo.png" className="logomain" />
+          <Image src="./logo.png" className="logomain" alt="Logo" />
           <h1 style={{ fontSize: "26px", color: "black", fontWeight: "600" }}>
             Join Us! 😎
           </h1>
@@ -159,7 +159,11 @@ export const StepTwo = (props) => {
       </div>
       <div className="button-container">
         <button className="button1" onClick={handleBackStep}>
-          <img src="./vector1.png" style={{ height: "8px", width: "4px" }} />
+          <Image
+            src="./vector1.png"
+            style={{ height: "8px", width: "4px" }}
+            alt="Logo"
+          />
           <p>Back</p>
         </button>
         <button
@@ -168,7 +172,11 @@ export const StepTwo = (props) => {
           disabled={shouldDisableButton()}
         >
           <p>Continue 2/3</p>
-          <Image src="./vector.png" style={{ height: "12px", width: "12px" }} />
+          <Image
+            src="./vector.png"
+            style={{ height: "12px", width: "12px" }}
+            alt="Logo"
+          />
         </button>
       </div>
     </div>

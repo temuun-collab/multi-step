@@ -81,7 +81,7 @@ export const StepThree = (props) => {
     <div className="form-container">
       <div className="container">
         <div className="from-header">
-          <Image src="./logo.png" className="logomain" />
+          <Image src="./logo.png" className="logomain" alt="Logo" />
           <h1 style={{ fontSize: "26px", color: "black", fontWeight: "600" }}>
             Join Us! 😎
           </h1>
@@ -112,7 +112,7 @@ export const StepThree = (props) => {
           {!imgUrl && (
             <>
               <button className="button2">
-                <Image src="./image.png" />
+                <Image src="./image.png" alt="Logo" />
                 <input
                   type="file"
                   name="file"
@@ -129,8 +129,9 @@ export const StepThree = (props) => {
           {imgUrl && (
             <>
               <div className="image relative">
-                <img
+                <Image
                   src={imgUrl}
+                  alt="image"
                   name="image"
                   style={{
                     width: "416px",
@@ -147,6 +148,7 @@ export const StepThree = (props) => {
                   >
                     <Image
                       src="./remove.png"
+                      alt="Logo"
                       style={{ width: "7px", height: "7px" }}
                     />
                   </button>
@@ -162,7 +164,11 @@ export const StepThree = (props) => {
       </div>
       <div className="button-container">
         <button className="button1" onClick={handleBackStep}>
-          <Image src="./vector1.png" style={{ height: "8px", width: "4px" }} />
+          <Image
+            src="./vector1.png"
+            alt="Logo"
+            style={{ height: "8px", width: "4px" }}
+          />
           <p>Back</p>
         </button>
         <button
@@ -173,7 +179,11 @@ export const StepThree = (props) => {
           // }
         >
           <p>Continue 3/3</p>
-          <Image src="./vector.png" style={{ height: "12px", width: "12px" }} />
+          <Image
+            src="./vector.png"
+            alt="Logo"
+            style={{ height: "12px", width: "12px" }}
+          />
         </button>
       </div>
     </div>
