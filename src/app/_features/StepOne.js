@@ -27,7 +27,7 @@ export const StepOne = (props) => {
     }
   };
   const [formValues, setFormValues] = useState(
-    getStepOneValuesFromLocalStorage()
+    getStepOneValuesFromLocalStorage(),
   );
   const [errorState, setErrorState] = useState({});
   const stringObject = JSON.stringify(formValues);

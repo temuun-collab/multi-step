@@ -10,6 +10,7 @@ export default function Home() {
   const addCurrentStepValuesFromLocalStorage = (values) => {
     localStorage.getItem("currentStep", JSON.stringify(values));
   };
+
   const getCurrentStepValuesFromLocalStorage = () => {
     const values = localStorage.getItem("currentStep");
     if (values) {
@@ -24,7 +25,7 @@ export default function Home() {
     }
   };
 
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   // const [formData, setFormData] = useState(() => {
   //   const saved = localStorage.getItem("currentStep");
   //   return saved ? JSON.parse(saved) : {};
