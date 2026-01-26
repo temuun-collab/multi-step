@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { FormInput } from "../_components/form-input";
-import Image from "next/image";
 
 export const StepOne = (props) => {
   const { handleNextStep } = props;
@@ -98,7 +97,7 @@ export const StepOne = (props) => {
     <div className="form-container">
       <div className="container">
         <div className="from-header">
-          <Image src="./logo.png" className="logomain" alt="Logo" />
+          <img src="./logo.png" className="logomain" alt="Logo" />
           <h1 style={{ fontSize: "26px", color: "black", fontWeight: "600" }}>
             Join Us! 😎
           </h1>
@@ -149,7 +148,7 @@ export const StepOne = (props) => {
           className="button"
         >
           <p>Continue 1/3</p>
-          <Image
+          <img
             src="./vector.png"
             style={{ height: "12px", width: "12px" }}
             alt="Logo"

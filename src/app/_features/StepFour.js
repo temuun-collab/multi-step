@@ -1,6 +1,4 @@
-import Image from "next/image";
-
-export const StepFour = (props) => {
+export const StepFour = () => {
   return (
     <div
       style={{
@@ -14,7 +12,7 @@ export const StepFour = (props) => {
       }}
     >
       <div className="from-header">
-        <Image src="./logo.png" className="logomain" alt="Logo" />
+        <img src="./logo.png" className="logomain" alt="Logo" />
         <h1 style={{ fontSize: "26px", color: "black", fontWeight: "600" }}>
           You are All Set 🔥
         </h1>

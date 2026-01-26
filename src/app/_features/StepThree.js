@@ -2,9 +2,6 @@
 
 import "tailwindcss";
 import { useState } from "react";
-import { FormInput } from "../_components/form-input";
-import Image from "next/image";
-
 export const StepThree = (props) => {
   const { handleBackStep } = props;
   const { handleNextStep } = props;
@@ -81,7 +78,7 @@ export const StepThree = (props) => {
     <div className="form-container">
       <div className="container">
         <div className="from-header">
-          <Image src="./logo.png" className="logomain" alt="Logo" />
+          <img src="./logo.png" className="logomain" alt="Logo" />
           <h1 style={{ fontSize: "26px", color: "black", fontWeight: "600" }}>
             Join Us! 😎
           </h1>
@@ -112,7 +109,7 @@ export const StepThree = (props) => {
           {!imgUrl && (
             <>
               <button className="button2">
-                <Image src="./image.png" alt="Logo" />
+                <img src="./image.png" alt="Logo" />
                 <input
                   type="file"
                   name="file"
@@ -129,7 +126,7 @@ export const StepThree = (props) => {
           {imgUrl && (
             <>
               <div className="image relative">
-                <Image
+                <img
                   src={imgUrl}
                   alt="image"
                   name="image"
@@ -146,7 +143,7 @@ export const StepThree = (props) => {
                       setImgUrl(false);
                     }}
                   >
-                    <Image
+                    <img
                       src="./remove.png"
                       alt="Logo"
                       style={{ width: "7px", height: "7px" }}
@@ -164,7 +161,7 @@ export const StepThree = (props) => {
       </div>
       <div className="button-container">
         <button className="button1" onClick={handleBackStep}>
-          <Image
+          <img
             src="./vector1.png"
             alt="Logo"
             style={{ height: "8px", width: "4px" }}
@@ -174,12 +171,12 @@ export const StepThree = (props) => {
         <button
           className="button"
           onClick={handleButtonClick}
-          // disabled={
-          //   formValues.imgUrl === 0 || formValues.dateBirth.length === 0
-          // }
+          disabled={
+            formValues.imgUrl === 0 || formValues.dateBirth.length === 0
+          }
         >
           <p>Continue 3/3</p>
-          <Image
+          <img
             src="./vector.png"
             alt="Logo"
             style={{ height: "12px", width: "12px" }}
