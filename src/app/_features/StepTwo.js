@@ -110,7 +110,7 @@ export const StepTwo = (props) => {
     <div className="form-container">
       <div className="container">
         <div className="from-header">
-          <img src="./logo.png" className="logomain" />
+          <Image src="./logo.png" className="logomain" />
           <h1 style={{ fontSize: "26px", color: "black", fontWeight: "600" }}>
             Join Us! 😎
           </h1>

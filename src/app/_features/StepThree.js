@@ -3,6 +3,7 @@
 import "tailwindcss";
 import { useState } from "react";
 import { FormInput } from "../_components/form-input";
+import Image from "next/image";
 
 export const StepThree = (props) => {
   const { handleBackStep } = props;
@@ -26,7 +27,7 @@ export const StepThree = (props) => {
   };
 
   const [formValues, setFormValues] = useState(
-    getStepThreeValuesFromLocalStorage()
+    getStepThreeValuesFromLocalStorage(),
   );
   const [imgUrl, setImgUrl] = useState(false);
   const [errorState, setErrorState] = useState({});
@@ -80,7 +81,7 @@ export const StepThree = (props) => {
     <div className="form-container">
       <div className="container">
         <div className="from-header">
-          <img src="./logo.png" className="logomain" />
+          <Image src="./logo.png" className="logomain" />
           <h1 style={{ fontSize: "26px", color: "black", fontWeight: "600" }}>
             Join Us! 😎
           </h1>
@@ -111,7 +112,7 @@ export const StepThree = (props) => {
           {!imgUrl && (
             <>
               <button className="button2">
-                <img src="./image.png" />
+                <Image src="./image.png" />
                 <input
                   type="file"
                   name="file"
@@ -144,7 +145,7 @@ export const StepThree = (props) => {
                       setImgUrl(false);
                     }}
                   >
-                    <img
+                    <Image
                       src="./remove.png"
                       style={{ width: "7px", height: "7px" }}
                     />
@@ -161,7 +162,7 @@ export const StepThree = (props) => {
       </div>
       <div className="button-container">
         <button className="button1" onClick={handleBackStep}>
-          <img src="./vector1.png" style={{ height: "8px", width: "4px" }} />
+          <Image src="./vector1.png" style={{ height: "8px", width: "4px" }} />
           <p>Back</p>
         </button>
         <button
@@ -172,7 +173,7 @@ export const StepThree = (props) => {
           // }
         >
           <p>Continue 3/3</p>
-          <img src="./vector.png" style={{ height: "12px", width: "12px" }} />
+          <Image src="./vector.png" style={{ height: "12px", width: "12px" }} />
         </button>
       </div>
     </div>
