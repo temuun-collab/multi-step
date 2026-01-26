@@ -1,50 +1,55 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FormInput } from "../_components/form-input";
 
 export const StepOne = (props) => {
   const { handleNextStep } = props;
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+    userName: "",
+  });
+  const [errorState, setErrorState] = useState({});
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+
+    if (typeof window !== "undefined") {
+      const values = localStorage.getItem("stepOne");
+      if (values) {
+        try {
+          setFormValues(JSON.parse(values));
+        } catch (error) {
+          console.error("Parse error:", error);
+        }
+      }
+    }
+  }, []);
+
   const checkInputHasSpecialCharacter = (string) => {
     return /[!@#$%^&*()_+{}":?><]/.test(string);
   };
+
   const checkInputHasSpecialNumber = (string) => {
     return /\d/.test(string);
   };
+
   const addStepOneToLocalStorage = (values) => {
-    localStorage.setItem("stepOne", JSON.stringify(values));
-  };
-  const getStepOneValuesFromLocalStorage = () => {
-    const values = localStorage.getItem("stepOne");
-    if (values) {
-      return JSON.parse(values);
-    } else {
-      return {
-        firstName: "",
-        lastName: "",
-        userName: "",
-      };
+    if (typeof window !== "undefined") {
+      localStorage.setItem("stepOne", JSON.stringify(values));
     }
   };
-  const [formValues, setFormValues] = useState(
-    getStepOneValuesFromLocalStorage(),
-  );
-  const [errorState, setErrorState] = useState({});
-  const stringObject = JSON.stringify(formValues);
-  console.log("string", stringObject);
-  console.log(typeof stringObject);
-
-  const object = JSON.parse(stringObject);
-  console.log("object", object);
-  console.log(typeof object);
 
   const handleInputChange = (e) => {
     const inputName = e.target.name;
     const inputValue = e.target.value;
     setFormValues({ ...formValues, [inputName]: inputValue });
   };
+
   const validateInput = () => {
     const errors = {};
+
     if (
       checkInputHasSpecialNumber(formValues.firstName) ||
       checkInputHasSpecialCharacter(formValues.firstName)
@@ -53,14 +58,16 @@ export const StepOne = (props) => {
     } else if (formValues.firstName.length < 3) {
       errors.firstName = "input should";
     }
+
     if (
       checkInputHasSpecialNumber(formValues.lastName) ||
       checkInputHasSpecialCharacter(formValues.lastName)
     ) {
-      errors.lastName = " last name input should";
+      errors.lastName = "last name input should";
     } else if (formValues.lastName.length < 3) {
-      errors.lastName = " last name input should";
+      errors.lastName = "last name input should";
     }
+
     if (
       checkInputHasSpecialNumber(formValues.userName) ||
       checkInputHasSpecialCharacter(formValues.userName)
@@ -69,12 +76,11 @@ export const StepOne = (props) => {
     } else if (formValues.userName.length < 3) {
       errors.userName = "user name input should";
     }
-    console.log(errors);
 
     return errors;
   };
 
-  const handleBUttonClick = () => {
+  const handleButtonClick = () => {
     const errors = validateInput();
 
     if (Object.keys(errors).length === 0) {
@@ -85,6 +91,7 @@ export const StepOne = (props) => {
       setErrorState(errors);
     }
   };
+
   const shouldDisableButton = () => {
     return (
       formValues.firstName.length === 0 ||
@@ -92,6 +99,16 @@ export const StepOne = (props) => {
       formValues.userName.length === 0
     );
   };
+
+  if (!mounted) {
+    return (
+      <div className="form-container">
+        <div className="container">
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="form-container">
@@ -143,7 +160,7 @@ export const StepOne = (props) => {
       </div>
       <div style={{ paddingTop: "159px" }}>
         <button
-          onClick={handleBUttonClick}
+          onClick={handleButtonClick}
           disabled={shouldDisableButton()}
           className="button"
         >
@@ -151,7 +168,7 @@ export const StepOne = (props) => {
           <img
             src="./vector.png"
             style={{ height: "12px", width: "12px" }}
-            alt="Logo"
+            alt="Arrow"
           />
         </button>
       </div>
