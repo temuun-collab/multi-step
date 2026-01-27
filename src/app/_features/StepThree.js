@@ -1,78 +1,111 @@
 "use client";
 
-import "tailwindcss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 export const StepThree = (props) => {
-  const { handleBackStep } = props;
-  const { handleNextStep } = props;
+  const { handleNextStep, handleBackStep } = props;
+  const [formValues, setFormValues] = useState({
+    dateBirth: "",
+    file: "",
+    image: "",
+  });
+  const [imgUrl, setImgUrl] = useState(null);
+  const [errorState, setErrorState] = useState({});
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+
+    if (typeof window !== "undefined") {
+      const values = localStorage.getItem("stepThree");
+      if (values) {
+        try {
+          const parsed = JSON.parse(values);
+          setFormValues({
+            dateBirth: parsed.dateBirth || "",
+            file: parsed.file || "",
+            image: parsed.image || "",
+          });
+          if (parsed.image) {
+            setImgUrl(parsed.image);
+          }
+        } catch (error) {
+          console.error("Parse error:", error);
+        }
+      }
+    }
+  }, []);
 
   const addStepThreeToLocalStorage = (values) => {
-    localStorage.setItem("stepThree", JSON.stringify(values));
-  };
-
-  const getStepThreeValuesFromLocalStorage = () => {
-    const values = localStorage.getItem("stepThree");
-    if (values) {
-      return JSON.parse(values);
-    } else {
-      return {
-        dateBirth: "",
-        file: "",
-        image: "",
-      };
+    if (typeof window !== "undefined") {
+      localStorage.setItem("stepThree", JSON.stringify(values));
     }
   };
 
-  const [formValues, setFormValues] = useState(
-    getStepThreeValuesFromLocalStorage(),
-  );
-  const [imgUrl, setImgUrl] = useState(false);
-  const [errorState, setErrorState] = useState({});
-  const stringObject = JSON.stringify(formValues);
-  console.log("string", stringObject);
-  console.log(typeof stringObject);
+  const handleDateChange = (e) => {
+    const value = e.target.value;
+    setFormValues({ ...formValues, dateBirth: value });
 
-  const object = JSON.parse(stringObject);
-  console.log("object", object);
-  console.log(typeof object);
+    if (errorState.dateBirth && value) {
+      setErrorState((prev) => ({ ...prev, dateBirth: "" }));
+    }
+  };
 
-  const handleImageUploud = (e) => {
+  const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     if (file) {
-      setImgUrl(URL.createObjectURL(file));
+      const url = URL.createObjectURL(file);
+      setImgUrl(url);
+      setFormValues({ ...formValues, image: url, file: file.name });
+
+      if (errorState.image) {
+        setErrorState((prev) => ({ ...prev, image: "" }));
+      }
     }
   };
-  // console.log(imgUrl);
+
+  const handleRemoveImage = () => {
+    setImgUrl(null);
+    setFormValues({ ...formValues, image: "", file: "" });
+  };
 
   const validateInput = () => {
     const errors = {};
-    if (formValues.dateBirth === 0 || formValues.file === null) {
-      setFormValues(errors);
+
+    if (!formValues.dateBirth) {
+      errors.dateBirth = "Please select a date.";
+    }
+
+    if (!imgUrl) {
+      errors.image = "Image cannot be blank.";
     }
 
     return errors;
   };
 
   const handleButtonClick = () => {
-    console.log("hi");
-
     const errors = validateInput();
 
     if (Object.keys(errors).length === 0) {
       setErrorState({});
-      addStepThreeToLocalStorage(formValues);
+      addStepThreeToLocalStorage({ ...formValues, image: imgUrl });
       handleNextStep();
     } else {
       setErrorState(errors);
     }
   };
 
-  // const shouldDisableButton = () => {
-  //   return ;
-  // };
+  const isButtonDisabled = !formValues.dateBirth || !imgUrl;
 
-  // console.log(formValues.image, formValues.dateBirth.length);
+  if (!mounted) {
+    return (
+      <div className="form-container">
+        <div className="container">
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="form-container">
@@ -87,83 +120,84 @@ export const StepThree = (props) => {
           </h1>
         </div>
         <div className="form-container1">
+          <div style={{ display: "flex", gap: "2px" }}>
+            <p className="text-field">Date of Birth</p>
+            <p style={{ color: "red" }}>*</p>
+          </div>
           <input
             type="date"
             name="dateBirth"
+            value={formValues.dateBirth || ""}
             min="1900-01-01"
             max="2025-12-31"
             className={
               errorState.dateBirth ? "input-container1" : "input-container"
             }
-            onChange={validateInput}
+            onChange={handleDateChange}
           />
           {errorState.dateBirth && (
-            <p className="helper-text">Please select a date.</p>
+            <p className="helper-text">{errorState.dateBirth}</p>
           )}
         </div>
+
+        {/* Image Upload */}
         <div className="form-container1">
           <div style={{ display: "flex", gap: "2px" }}>
             <p className="text-field">Profile image</p>
             <p style={{ color: "red" }}>*</p>
           </div>
+
           {!imgUrl && (
-            <>
-              <button className="button2">
-                <img src="./image.png" alt="Logo" />
-                <input
-                  type="file"
-                  name="file"
-                  className="input-image ml-23"
-                  onChange={handleImageUploud}
-                />
-              </button>
-            </>
-          )}
-          {formValues.dateBirth && (
-            <p className="helper-text">Image cannot be blank</p>
+            <button className="button2">
+              <img src="./image.png" alt="Upload icon" />
+              <input
+                type="file"
+                name="file"
+                accept="image/*"
+                className="input-image ml-23"
+                onChange={handleImageUpload}
+              />
+            </button>
           )}
 
           {imgUrl && (
-            <>
-              <div className="image relative">
-                <img
-                  src={imgUrl}
-                  alt="image"
-                  name="image"
-                  style={{
-                    width: "416px",
-                    height: "180px",
-                    objectFit: "cover",
-                  }}
-                />
-                <div className="flex justify-end">
-                  <button
-                    className="remove-button absolute z-10"
-                    onClick={() => {
-                      setImgUrl(false);
-                    }}
-                  >
-                    <img
-                      src="./remove.png"
-                      alt="Logo"
-                      style={{ width: "7px", height: "7px" }}
-                    />
-                  </button>
-                </div>
+            <div className="image relative">
+              <img
+                src={imgUrl}
+                alt="Profile preview"
+                style={{
+                  width: "416px",
+                  height: "180px",
+                  objectFit: "cover",
+                }}
+              />
+              <div className="flex justify-end">
+                <button
+                  className="remove-button absolute z-10"
+                  onClick={handleRemoveImage}
+                >
+                  <img
+                    src="./remove.png"
+                    alt="Remove"
+                    style={{ width: "7px", height: "7px" }}
+                  />
+                </button>
               </div>
-            </>
+            </div>
           )}
 
-          {errorState.dateBirth && (
-            <p className="helper-text">Image cannot be blank</p>
+          {errorState.image && (
+            <p className="helper-text">{errorState.image}</p>
           )}
         </div>
       </div>
+
+      {/* Buttons */}
       <div className="button-container">
         <button className="button1" onClick={handleBackStep}>
           <img
             src="./vector1.png"
-            alt="Logo"
+            alt="Back arrow"
             style={{ height: "8px", width: "4px" }}
           />
           <p>Back</p>
@@ -171,14 +205,12 @@ export const StepThree = (props) => {
         <button
           className="button"
           onClick={handleButtonClick}
-          disabled={
-            formValues.imgUrl === 0 || formValues.dateBirth.length === 0
-          }
+          disabled={isButtonDisabled}
         >
           <p>Continue 3/3</p>
           <img
             src="./vector.png"
-            alt="Logo"
+            alt="Next arrow"
             style={{ height: "12px", width: "12px" }}
           />
         </button>
